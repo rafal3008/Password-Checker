@@ -4,7 +4,7 @@ import sys
 
 
 def request_api_data(query_char):
-    # request data from server
+    # what if bad response
     url = 'https://api.pwnedpasswords.com/range/' + query_char
     response = requests.get(url)
     return response
@@ -19,17 +19,17 @@ def get_leaks_count(hashes, hash_to_check):
 
 
 def check_if_pwned_password(password):
-    hash_password = (hashlib.sha1(password.encode('utf-8')).hexdigest())
-    hash_password = hash_password.upper()
+    hash_password = (hashlib.sha1(
+        password.encode('utf-8')).hexdigest()).upper()
     first_five = hash_password[:5]
     tail = hash_password[5:]
-    print(first_five, tail)
     response = request_api_data(first_five)
 
     return get_leaks_count(response, tail)
 
 
 def main(args):
+    # what if there arent any arguments passed
     for password in args:
         count = check_if_pwned_password(password)
         if count:
