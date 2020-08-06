@@ -9,6 +9,14 @@ def request_api_data(query_char):
     return response
 
 
+def get_leaks_count(hashes, hash_to_check):
+    hashes = (line.split(':') for line in hashes.text.splitlines())
+    for item, count in hashes:
+        if item == hash_to_check:
+            return count
+    return 0
+
+
 def check_if_pwned_password(password):
     hash_password = (hashlib.sha1(password.encode('utf-8')).hexdigest())
     hash_password = hash_password.upper()
@@ -17,7 +25,7 @@ def check_if_pwned_password(password):
     print(first_five, tail)
     response = request_api_data(first_five)
 
-    print(response)
+    return get_leaks_count(response, tail)
 
 
 check_if_pwned_password('password')
