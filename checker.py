@@ -1,5 +1,6 @@
 import requests
 import hashlib
+import sys
 
 
 def request_api_data(query_char):
@@ -28,4 +29,14 @@ def check_if_pwned_password(password):
     return get_leaks_count(response, tail)
 
 
-check_if_pwned_password('password')
+def main(args):
+    for password in args:
+        count = check_if_pwned_password(password)
+        if count:
+            print(f'{password} was found {count} times!')
+        else:
+            print(f'{password} was not found')
+    return 1
+
+
+main(sys.argv[1:])
