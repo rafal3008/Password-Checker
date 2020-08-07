@@ -3,15 +3,15 @@ Check if your password is unique with API from [haveibeenpwned.com](http://havei
 
 ## How to use
 
-**1. Using console**
+##### 1. Using console
 ```bash
 python3 checker.py <password(s)>
 ```
-**2.Using text file**
-Write passwords into pass_to_check.txt file, separating them with the newline
+##### 2.Using text file
+Write passwords into pass_to_check.txt file, separating them with the newline. Results will be passed to results.txt
 
 ------------
 ## Used modules
-**requests** [[link]](https://requests.readthedocs.io/en/master/ "[link]")
-sys
-hashlib
+- **requests** [[link]](https://requests.readthedocs.io/en/master/ "[link]")
+- sys
+- hashlib
