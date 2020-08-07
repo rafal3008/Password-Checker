@@ -7,6 +7,7 @@ def request_api_data(query_char):
 
     url = 'https://api.pwnedpasswords.com/range/' + query_char
     response = requests.get(url)
+    print(response)
     if response.status_code != 200:
         return (f'Error: {response.status_code}')
     else:
@@ -67,7 +68,8 @@ def main(args):
                 print(f'{password} was found {count} times!')
             else:
                 print(f'{password} was not found')
-    return 1
+    return 'Done'
 
 
-main(sys.argv[1:])
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))
