@@ -4,10 +4,13 @@ import sys
 
 
 def request_api_data(query_char):
-    # what if bad response
+
     url = 'https://api.pwnedpasswords.com/range/' + query_char
     response = requests.get(url)
-    return response
+    if response.status_code != 200:
+        return (f'Error: {response.status_code}')
+    else:
+        return response
 
 
 def get_leaks_count(hashes, hash_to_check):
@@ -28,14 +31,42 @@ def check_if_pwned_password(password):
     return get_leaks_count(response, tail)
 
 
+def read_pass_from_file(filename):
+    try:
+        with open(filename, 'r') as file:
+            password_list = file.readlines()
+            for password in password_list:
+                password = password.rstrip()
+                count = check_if_pwned_password(password)
+                if count:
+                    with open('results.txt', 'a') as res_file:
+                        result = (f'{password} was found {count} times!')
+                        res_file.write(result)
+                        res_file.write('\n')
+                else:
+                    with open('results.txt', 'a') as res_file:
+                        result = (f'{password} was not found')
+                        res_file.write(result)
+                        res_file.write('\n')
+    except IOError:
+        file = open(filename, 'w')
+        file.close()
+        print('File not found, creating one')
+    return 0
+
+
 def main(args):
-    # what if there arent any arguments passed
-    for password in args:
-        count = check_if_pwned_password(password)
-        if count:
-            print(f'{password} was found {count} times!')
-        else:
-            print(f'{password} was not found')
+    if len(args) < 2:
+        print('No args passed, checking for file')
+        read_pass_from_file('pass_to_check.txt')
+
+    else:
+        for password in args:
+            count = check_if_pwned_password(password)
+            if count:
+                print(f'{password} was found {count} times!')
+            else:
+                print(f'{password} was not found')
     return 1
 
 
