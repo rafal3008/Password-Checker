@@ -1,3 +1,5 @@
 
 pass_to_check.txt
 results.txt
+.idea/
+__pycache__/
